@@ -1,3 +1,9 @@
+'''
+    File name: vaccineSlot.py
+    Author: Mradul Jain
+    Date created: 12/05/2021
+    Python Version: 3.9.0
+'''
 import sys
 import time
 import json
@@ -39,7 +45,7 @@ def getavailability(data,age_group):
             available_onDate = data['centers'][x]['sessions'][y]['date']
             if available > 0 :
                 #print(str(available) + " available on " + available_onDate + " for age group " + str(age_limit))
-                if age_group == all :
+                if age_group == "all" :
                     found = 1
                     #print(str(available) + " dose available on date " + available_onDate + " for age group " + str(age_limit))
                 if age_group == str(age_limit) :
@@ -62,11 +68,14 @@ if __name__=="__main__":
     required = parser.add_argument_group('required arguments')
     required.add_argument('-p','--pin_code',required=True)
     required.add_argument('-t','--time_interval',required=True,help='give this value in minute, After this time interval script will execute again')
-    required.add_argument('-a','--age_group',required=True,help=' Two value 18 / 45 / all')
+    required.add_argument('-a','--age_group',required=True,help='Expected values 18 / 45 / all')
     if len(sys.argv)==1:
         parser.print_help()
         sys.exit(1)
     args = parser.parse_args()   
+    if not(args.age_group == "18" or  args.age_group == "45" or  args.age_group == "all") :
+        print("wrong age group. choose 18 /45 / all. Please check \'python vaccineSlot.py -h\'")
+        sys.exit(1)
     main(args.pin_code,args.age_group,args.time_interval)
     
     
